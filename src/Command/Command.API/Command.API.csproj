@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core\Command.Application\Command.Application.csproj" />
+      <ProjectReference Include="..\Infrastructure\Command.Infrastructure\Command.Infrastructure.csproj" />
+      <ProjectReference Include="..\Infrastructure\Command.Persistence\Command.Persistence.csproj" />
+    </ItemGroup>
+
+</Project>
