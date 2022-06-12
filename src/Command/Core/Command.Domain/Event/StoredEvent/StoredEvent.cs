@@ -4,6 +4,7 @@ namespace Command.Domain.Event.StoredEvent;
 
 public class PersistentEvent
 {
+    public int Id { get; set; }
     public Guid AggregateId { get; }
     public EventType Type { get; }
     public long Version { get; }

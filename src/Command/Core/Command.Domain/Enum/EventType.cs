@@ -8,7 +8,7 @@ public enum EventType
     CourseDescriptionChanged,
     CoursePrePresented,
     CourseActivated,
-    CourseDisabled,
+    CourseCompleted,
     SectionAppended,
     JoinedToCourse,
     LeftFromCourse,

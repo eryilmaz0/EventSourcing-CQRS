@@ -4,6 +4,7 @@ namespace Command.Domain.DomainObject;
 
 public abstract class AggregateRoot
 {
+    
     private ICollection<IEvent> _events = new List<IEvent>();
     public long Version { get; protected set; }
     public Guid AggregateId { get; }
@@ -14,7 +15,7 @@ public abstract class AggregateRoot
     
     
     protected abstract void ApplyEvent(IEvent @event);
-    public abstract void PrepareCurrentState(ICollection<IEvent> events);
+    public abstract void PrepareCurrentState(IEnumerable<IEvent> events);
 
 
     public AggregateRoot(Guid id)

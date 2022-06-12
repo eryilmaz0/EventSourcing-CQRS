@@ -34,7 +34,7 @@ public class Course : AggregateRoot
         }
     }
 
-    public override void PrepareCurrentState(ICollection<IEvent> events)
+    public override void PrepareCurrentState(IEnumerable<IEvent> events)
     {
         //Projecting every event, and reaching current state and version number.
         foreach (var @event in events)

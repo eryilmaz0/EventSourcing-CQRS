@@ -11,7 +11,7 @@ public class CourseCompletedEvent : IEvent
     
     public PersistentEvent ToPersistentEvent(Guid aggregateId, long version)
     {
-        return new(aggregateId, EventType.CourseDisabled, version, Created, JsonSerializer.Serialize(this));
+        return new(aggregateId, EventType.CourseCompleted, version, Created, JsonSerializer.Serialize(this));
     }
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId, long version)
