@@ -105,7 +105,7 @@ public class Course : AggregateRoot
     }
 
 
-    public void PrePresentCourse()
+    public void PrePresentationCourse()
     {
         if (CurrentState.Status != CourseStatus.Created)
         {
@@ -202,7 +202,7 @@ public class Course : AggregateRoot
     }
 
 
-    public void LeftCourse(Guid participantId)
+    public void LeaveCourse(Guid participantId)
     {
         if (!CurrentState.Participants.Any(x => x.ParticipantId == participantId))
             throw new DomainException("User is not a participant of this course.");

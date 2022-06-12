@@ -11,4 +11,10 @@
       <ProjectReference Include="..\Command.Domain\Command.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Abstracts\Infrastructure" />
+      <Folder Include="Abstracts\Persistence" />
+      <Folder Include="Behaviorals" />
+    </ItemGroup>
+
 </Project>
