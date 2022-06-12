@@ -10,7 +10,7 @@ public class JoinedToCourseEvent : IEvent
     public Guid ParticipantId { get; set; }
     public DateTime Created { get; set; }
     
-    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId, long version)
+    public PersistentEvent ToPersistentEvent(Guid aggregateId, long version)
     {
         return new(aggregateId, EventType.JoinedToCourse, version, Created, JsonSerializer.Serialize(this));
     }

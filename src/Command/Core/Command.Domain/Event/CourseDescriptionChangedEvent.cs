@@ -10,7 +10,7 @@ public class CourseDescriptionChangedEvent : IEvent
     public string Description { get; set; }
     public DateTime Created { get; set; }
     
-    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId, long version)
+    public PersistentEvent ToPersistentEvent(Guid aggregateId, long version)
     {
         return new(aggregateId, EventType.CourseDescriptionChanged, version, Created, JsonSerializer.Serialize(this));
     }

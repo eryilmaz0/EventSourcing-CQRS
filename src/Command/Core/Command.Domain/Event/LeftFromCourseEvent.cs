@@ -10,7 +10,7 @@ public class LeftFromCourseEvent : IEvent
     public Guid ParticipantId { get; set; }
     public DateTime Created { get; set; }
     
-    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId, long version)
+    public PersistentEvent ToPersistentEvent(Guid aggregateId, long version)
     {
         return new(aggregateId, EventType.LeftFromCourse, version, Created, JsonSerializer.Serialize(this));
     }

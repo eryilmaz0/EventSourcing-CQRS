@@ -2,16 +2,16 @@
 
 namespace Command.Domain.Event.StoredEvent;
 
-public class PersistentEvent<TId>
+public class PersistentEvent
 {
-    public TId AggregateId { get; }
+    public Guid AggregateId { get; }
     public EventType Type { get; }
     public long Version { get; }
     public DateTime Created { get; }
     public string Payload { get; }
 
 
-    public PersistentEvent(TId aggregateId, EventType eventType, long version, DateTime created, string payload)
+    public PersistentEvent(Guid aggregateId, EventType eventType, long version, DateTime created, string payload)
     {
         AggregateId = aggregateId;
         Type = eventType;

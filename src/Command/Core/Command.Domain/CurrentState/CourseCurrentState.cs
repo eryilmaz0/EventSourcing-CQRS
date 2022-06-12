@@ -11,9 +11,9 @@ public class CourseCurrentState : CurrentState
     public string Category { get; set; }
     public DateTime? Created { get; set; }
     
-    public ICollection<SectionCurrentState> Sections { get; set; }
-    public ICollection<CommentCurrentState> Comments { get; set; }
-    public ICollection<ParticipantCurrentState> Participants { get; set; }
+    public ICollection<SectionCurrentState> Sections { get; }
+    public ICollection<CommentCurrentState> Comments { get; }
+    public ICollection<ParticipantCurrentState> Participants { get; }
 
 
     public CourseCurrentState()
