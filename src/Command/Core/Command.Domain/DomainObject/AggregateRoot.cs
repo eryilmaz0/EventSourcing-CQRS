@@ -5,8 +5,8 @@ namespace Command.Domain.DomainObject;
 public abstract class AggregateRoot
 {
     private ICollection<IEvent> _events = new List<IEvent>();
-    protected long Version { get; set; }
-    protected Guid AggregateId { get; }
+    public long Version { get; protected set; }
+    public Guid AggregateId { get; }
     
 
     public ICollection<IEvent> GetRaisedEvents() => _events;
