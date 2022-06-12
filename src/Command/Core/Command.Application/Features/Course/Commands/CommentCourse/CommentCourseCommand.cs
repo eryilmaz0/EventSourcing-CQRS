@@ -1,6 +1,10 @@
-﻿namespace Command.Application.Features.Course.Commands.CommentCourse;
+﻿using MediatR;
 
-public class CommentCourseCommand
+namespace Command.Application.Features.Course.Commands.CommentCourse;
+
+public class CommentCourseCommand : IRequest<CommentCourseResponse>
 {
-    
+    public Guid CourseId { get; set; }
+    public Guid CommentorId { get; set; }
+    public string Comment { get; set; }
 }

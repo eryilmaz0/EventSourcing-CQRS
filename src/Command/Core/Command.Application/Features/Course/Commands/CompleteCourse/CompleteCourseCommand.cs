@@ -1,6 +1,8 @@
-﻿namespace Command.Application.Features.Course.Commands.CompleteCourse;
+﻿using MediatR;
 
-public class CompleteCourseCommand
+namespace Command.Application.Features.Course.Commands.CompleteCourse;
+
+public class CompleteCourseCommand : IRequest<CompleteCourseResponse>
 {
-    
+    public Guid CourseId { get; set; }
 }

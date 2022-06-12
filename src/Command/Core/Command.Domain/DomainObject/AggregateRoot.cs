@@ -10,7 +10,7 @@ public abstract class AggregateRoot
     
 
     public ICollection<IEvent> GetRaisedEvents() => _events;
-    public void AddRaisedEvent(IEvent @event) => _events.Add(@event);
+    protected void AddRaisedEvent(IEvent @event) => _events.Add(@event);
     
     
     protected abstract void ApplyEvent(IEvent @event);

@@ -1,6 +1,8 @@
-﻿namespace Command.Application.Features.Course.Commands.ActivateCourse;
+﻿using MediatR;
 
-public class ActivateCourseCommand
+namespace Command.Application.Features.Course.Commands.ActivateCourse;
+
+public class ActivateCourseCommand : IRequest<ActivateCourseResponse>
 {
-    
+    public Guid CourseId { get; set; }
 }

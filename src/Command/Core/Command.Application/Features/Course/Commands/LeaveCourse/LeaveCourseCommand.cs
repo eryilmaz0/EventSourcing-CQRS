@@ -1,6 +1,9 @@
-﻿namespace Command.Application.Features.Course.Commands.LeaveCourse;
+﻿using MediatR;
 
-public class LeaveCourseCommand
+namespace Command.Application.Features.Course.Commands.LeaveCourse;
+
+public class LeaveCourseCommand : IRequest<LeaveCourseResponse>
 {
-    
+    public Guid CourseId { get; set; }
+    public Guid ParticipantId { get; set; }
 }
