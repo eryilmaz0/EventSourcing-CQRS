@@ -20,6 +20,6 @@ public class CourseCreatedEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId, long version)
     {
-        throw new NotImplementedException();
+        return new FakeIntegrationEvent();
     }
 }

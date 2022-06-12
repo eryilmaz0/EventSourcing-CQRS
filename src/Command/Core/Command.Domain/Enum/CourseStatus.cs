@@ -5,6 +5,6 @@ public enum CourseStatus
     NonCreated = 0,
     Created,
     PrePresentation,
-    Actived,
+    Activated,
     Completed
 }

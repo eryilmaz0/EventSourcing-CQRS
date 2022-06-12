@@ -7,7 +7,7 @@ namespace Command.Domain.DomainObject;
 
 public class Course : AggregateRoot
 {
-    protected CourseCurrentState CurrentState { get; set; }
+    public CourseCurrentState CurrentState { get; set; }
 
     public Course(Guid id) : base(id)
     {
@@ -141,7 +141,7 @@ public class Course : AggregateRoot
 
     public void CompleteCourse()
     {
-        if (CurrentState.Status != CourseStatus.Actived)
+        if (CurrentState.Status != CourseStatus.Activated)
         {
             throw new DomainException("Course Status Not Valid For Completing.");
         }
@@ -184,8 +184,8 @@ public class Course : AggregateRoot
 
     public void JoinCourse(Guid participantId)
     {
-        if (CurrentState.Status == CourseStatus.Completed || CurrentState.Status == CourseStatus.NonCreated)
-            throw new DomainException("Course is not joinable.");
+        if (CurrentState.Status == CourseStatus.NonCreated)
+            throw new DomainException("Course is not not exist.");
 
         if (CurrentState.Participants.Any(x => x.ParticipantId == participantId))
             throw new DomainException("User is already a participant of this course.");
@@ -220,7 +220,7 @@ public class Course : AggregateRoot
 
     public void CommentCourse(Guid commentorId, string comment)
     {
-        if (CurrentState.Status != CourseStatus.Actived || CurrentState.Status != CourseStatus.Completed)
+        if (CurrentState.Status != CourseStatus.Activated && CurrentState.Status != CourseStatus.Completed)
             throw new DomainException("Course status is not valid for commenting.");
         
         if(!CurrentState.Participants.Any(x => x.ParticipantId == commentorId))
@@ -275,7 +275,7 @@ public class Course : AggregateRoot
     
     private void Apply(CourseActivatedEvent @event)
     {
-        CurrentState.Status = CourseStatus.Actived;
+        CurrentState.Status = CourseStatus.Activated;
     }
     
     
