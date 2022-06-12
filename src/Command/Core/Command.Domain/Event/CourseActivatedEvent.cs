@@ -1,16 +1,20 @@
-﻿using Command.Domain.Event.StoredEvent;
+﻿using System.Text.Json;
+using Command.Domain.Enum;
+using Command.Domain.Event.StoredEvent;
 using EventSourcing.Shared.IntegrationEvent;
 
 namespace Command.Domain.Event;
 
 public class CourseActivatedEvent : IEvent
 {
-    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId)
+    public DateTime Created { get; set; }
+    
+    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId, long version)
     {
-        throw new NotImplementedException();
+        return new(aggregateId, EventType.CourseActivated, version, Created, JsonSerializer.Serialize(this));
     }
-
-    public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
+ 
+    public IIntegrationEvent ToIntegrationEvent(Guid aggregateId, long version)
     {
         throw new NotImplementedException();
     }

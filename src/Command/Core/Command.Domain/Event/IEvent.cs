@@ -5,6 +5,6 @@ namespace Command.Domain.Event;
 
 public interface IEvent
 {
-    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId);
-    public IIntegrationEvent ToIntegrationEvent(Guid aggregateId);
+    public PersistentEvent<Guid> ToPersistentEvent(Guid aggregateId, long version);
+    public IIntegrationEvent ToIntegrationEvent(Guid aggregateId, long version);
 }

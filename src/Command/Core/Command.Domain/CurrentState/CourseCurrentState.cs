@@ -5,7 +5,7 @@ namespace Command.Domain.CurrentState;
 public class CourseCurrentState : CurrentState
 {
     public Guid InstructorId { get; set; }
-    public string Name { get; set; }
+    public string Title { get; set; }
     public string Description { get; set; }
     public CourseStatus Status { get; set; }
     public string Category { get; set; }
@@ -18,6 +18,7 @@ public class CourseCurrentState : CurrentState
 
     public CourseCurrentState()
     {
+        Status = CourseStatus.NonCreated;
         Sections = new List<SectionCurrentState>();
         Comments = new List<CommentCurrentState>();
         Participants = new List<ParticipantCurrentState>();
@@ -27,11 +28,17 @@ public class CourseCurrentState : CurrentState
 
 public class SectionCurrentState
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; }
     public string Title { get; set; }
     public string Description { get; set; }
     public string VideoUrl { get; set; }
     public DateTime Created { get; set; }
+
+
+    public SectionCurrentState()
+    {
+        Id = Guid.NewGuid();
+    }
 }
 
 

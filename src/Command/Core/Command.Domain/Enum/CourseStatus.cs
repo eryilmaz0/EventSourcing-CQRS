@@ -2,8 +2,9 @@
 
 public enum CourseStatus
 {
-    Created = 1,
+    NonCreated = 0,
+    Created,
     PrePresentation,
-    Active,
-    Disable
+    Actived,
+    Completed
 }
