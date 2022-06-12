@@ -17,16 +17,20 @@ public class EfEventStore : IEventStore
     }
 
     
-    public async Task SaveEvents(IEnumerable<PersistentEvent> events, long expectedVersion)
+    public async Task SaveEventsAsync(IEnumerable<PersistentEvent> events, long expectedVersion)
     {
         //TODO : do version check for consistency
         await _context.Events.AddRangeAsync(events);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<IEvent>> GetEvents(Guid aggregateId)
+    public async Task<IEnumerable<IEvent>> GetEventsAsync(Guid aggregateId)
     {
-        var persistentEvents = await _context.Events.Where(x => x.AggregateId == aggregateId).ToListAsync();
+        var persistentEvents = await _context.Events
+                                                     .Where(x => x.AggregateId == aggregateId)
+                                                     .OrderBy(x => x.Version)
+                                                     .ToListAsync();
+        
         return EventConverter.DeserializePersistentEvents(persistentEvents);
     }
 }

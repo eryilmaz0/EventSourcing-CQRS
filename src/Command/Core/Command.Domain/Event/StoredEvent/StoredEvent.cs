@@ -20,4 +20,9 @@ public class PersistentEvent
         Created = created;
         Payload = payload;
     }
+
+    public PersistentEvent()
+    {
+        
+    }
 }

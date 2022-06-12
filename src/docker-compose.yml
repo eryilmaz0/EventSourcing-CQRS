@@ -1,0 +1,11 @@
+version : '3.8'
+
+services:
+
+  eventstore_db:
+    image: postgres
+
+
+
+volumes:
+   postgres_data:

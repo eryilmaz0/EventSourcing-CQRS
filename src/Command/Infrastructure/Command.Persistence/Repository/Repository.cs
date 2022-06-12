@@ -16,16 +16,18 @@ public class Repository<T> : IRepository<T> where T : AggregateRoot
     public async Task<T> GetByIdAsync(Guid aggregateId)
     {
         var aggregate = (T)Activator.CreateInstance(typeof(T), new object[] { aggregateId });
-        var eventStream =  await _eventStore.GetEvents(aggregateId);
+        var eventStream =  await _eventStore.GetEventsAsync(aggregateId);
 
         if (eventStream.Any())
         {
+            //Projection
             aggregate.PrepareCurrentState(eventStream);
         }
 
         return aggregate;
     }
 
+    
     public async Task SaveAsync(T aggregate)
     {
         var events = new List<PersistentEvent>();
@@ -37,6 +39,6 @@ public class Repository<T> : IRepository<T> where T : AggregateRoot
             events.Add(raisedEvent.ToPersistentEvent(aggregate.AggregateId, currentVersion));
         }
 
-        await _eventStore.SaveEvents(events, aggregate.Version);
+        await _eventStore.SaveEventsAsync(events, aggregate.Version);
     }
 }

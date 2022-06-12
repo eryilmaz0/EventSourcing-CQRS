@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+
+  eventstore_db:
+    container_name: eventstore_db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+    restart: always
+    ports:
+      - 7000:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
