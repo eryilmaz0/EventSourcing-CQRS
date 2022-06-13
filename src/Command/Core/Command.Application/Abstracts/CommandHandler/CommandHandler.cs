@@ -12,7 +12,7 @@ public abstract class CommandHandler
         
         foreach (var @event in aggregate.GetRaisedEvents())
         {
-            integrationEvents.Add(@event.ToIntegrationEvent(aggregate.AggregateId, aggregate.Version)); 
+            integrationEvents.Add(@event.ToIntegrationEvent(aggregate.AggregateId)); 
         }
         
         return integrationEvents;

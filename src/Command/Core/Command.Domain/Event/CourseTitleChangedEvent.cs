@@ -15,7 +15,7 @@ public class CourseTitleChangedEvent : IEvent
         return new(aggregateId, EventType.CourseTitleChanged, version, Created, JsonSerializer.Serialize(this));
     }
  
-    public IIntegrationEvent ToIntegrationEvent(Guid aggregateId, long version)
+    public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
         return new FakeIntegrationEvent();
     }
