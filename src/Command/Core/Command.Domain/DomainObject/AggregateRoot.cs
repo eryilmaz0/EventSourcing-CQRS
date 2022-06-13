@@ -7,7 +7,7 @@ public abstract class AggregateRoot
     
     private ICollection<IEvent> _events = new List<IEvent>();
     public long Version { get; protected set; }
-    public Guid AggregateId { get; }
+    public Guid AggregateId { get; protected set; }
     
 
     public ICollection<IEvent> GetRaisedEvents() => _events;

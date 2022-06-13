@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Reflection;
+using MediatR;
 
 namespace Command.Application.Abstracts.Infrastructure;
 
@@ -13,7 +14,8 @@ public class CommandMediator : ICommandMediator
 
     public async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest request)
     {
-        if (!typeof(TRequest).IsAssignableFrom(typeof(IRequest<TResponse>)))
+        // if (!typeof(TRequest).IsAssignableFrom(typeof(IRequest<TResponse>)))
+        if (!typeof(IRequest<TResponse>).IsAssignableFrom(typeof(TRequest)))
             throw new ApplicationException();
 
         var castedRequest = (IRequest<TResponse>)request;

@@ -15,14 +15,14 @@ public static class ServiceRegistrator
 {
     public static IServiceCollection RegisterInfrastructureServices(this IServiceCollection serviceCollection, IConfiguration config)
     {
-        serviceCollection.AddScoped<ICommandMediator, Application.Abstracts.Infrastructure.CommandMediator>();
+        serviceCollection.AddScoped<ICommandMediator, CommandMediator.CommandMediator>();
         serviceCollection.AddScoped<IEventBus, MassTransitEventBus>();
         
         
         serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        serviceCollection.AddMediatR(typeof(CommandHandler));
-        serviceCollection.AddTransient(typeof(IStreamPipelineBehavior<,>), typeof(ExceptionHandlingBehaviour<,>));
-        serviceCollection.AddTransient(typeof(IStreamPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        serviceCollection.AddMediatR(typeof(CommandHandler), typeof(CommandMediator.CommandMediator));
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionHandlingBehaviour<,>));
+        serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         
         serviceCollection.AddMassTransit(x=>
         {

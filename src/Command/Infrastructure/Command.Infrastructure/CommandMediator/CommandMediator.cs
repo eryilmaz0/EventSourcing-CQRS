@@ -15,7 +15,7 @@ public class CommandMediator : ICommandMediator
 
     public async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest request)
     {
-        if (!typeof(TRequest).IsAssignableFrom(typeof(IRequest<TResponse>)))
+        if (!typeof(IRequest<TResponse>).IsAssignableFrom(typeof(TRequest)))
             throw new ApplicationException();
 
         var handlerResponse = await _mediator.Send<TResponse>((IRequest<TResponse>) request);
