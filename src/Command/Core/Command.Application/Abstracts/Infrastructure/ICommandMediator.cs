@@ -2,5 +2,5 @@
 
 public interface ICommandMediator
 {
-    public Task<TResponse> Send<TRequest, TResponse>(TRequest request);
+    public Task<TResponse> SendAsync<TRequest, TResponse>(TRequest request);
 }

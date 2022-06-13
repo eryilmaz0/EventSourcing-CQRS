@@ -2,7 +2,7 @@
 
 namespace Command.Application.Features.Course.Commands.CreateCourse;
 
-public class CreateCourseCommand : IRequest<CreateCourseResponse>
+public class CreateCourseCommand : Abstracts.Command.Command, IRequest<CreateCourseResponse>
 {
     public Guid InstructorId { get; set; }
     public string Title { get; set; }

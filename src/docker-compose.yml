@@ -5,6 +5,9 @@ services:
   eventstore_db:
     image: postgres
 
+  eventbus:
+    image: rabbitmq:3-management-alpine
+
 
 
 volumes:

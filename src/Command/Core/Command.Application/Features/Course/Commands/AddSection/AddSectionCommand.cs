@@ -2,7 +2,7 @@
 
 namespace Command.Application.Features.Course.Commands.AddSection;
 
-public class AddSectionCommand : IRequest<AddSectionResponse>
+public class AddSectionCommand : Abstracts.Command.Command, IRequest<AddSectionResponse>
 {
     public Guid CourseId { get; set; }
     public Guid InstructorId { get; set; }

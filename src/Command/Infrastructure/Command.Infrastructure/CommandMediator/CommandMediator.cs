@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using Command.Application.Abstracts.Infrastructure;
+using MediatR;
 
-namespace Command.Application.Abstracts.Infrastructure;
+namespace Command.Infrastructure.CommandMediator;
 
 public class CommandMediator : ICommandMediator
 {
@@ -10,15 +11,14 @@ public class CommandMediator : ICommandMediator
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
+    
 
     public async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest request)
     {
         if (!typeof(TRequest).IsAssignableFrom(typeof(IRequest<TResponse>)))
             throw new ApplicationException();
 
-        var castedRequest = (IRequest<TResponse>)request;
-
-        var response = await _mediator.Send<TResponse>(castedRequest);
-        return response;
+        var handlerResponse = await _mediator.Send<TResponse>((IRequest<TResponse>) request);
+        return handlerResponse;
     }
 }

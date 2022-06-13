@@ -12,3 +12,14 @@ services:
       - 7000:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+
+  eventbus:
+    container_name: eventbus
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin1234
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
