@@ -8,6 +8,13 @@ services:
   eventbus:
     image: rabbitmq:3-management-alpine
 
+  command_api:
+    image: command_api:1.0
+    build:
+      context: .
+      dockerfile: Command/Command.API/Dockerfile
+
+
 
 
 volumes:

@@ -48,7 +48,7 @@ public class Course : AggregateRoot
     //Command --> Function --> Event
     #region Business Logic
 
-    public Guid CreateCourse(Guid instructorId, string title, string description, string category)
+    public void CreateCourse(Guid instructorId, string title, string description, string category)
     {
         if (CurrentState.Status != CourseStatus.NonCreated)
         {
@@ -66,7 +66,6 @@ public class Course : AggregateRoot
         
         ApplyEvent(raisedEvent);
         AddRaisedEvent(raisedEvent);
-        return AggregateId;
     }
 
 

@@ -20,13 +20,14 @@ public class CreateCourseCommandHandler : CommandHandler, IRequestHandler<Create
 
     public async Task<CreateCourseResponse> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        var course = await _repository.GetByIdAsync(Guid.Empty);
-        var createdCourseId = course.CreateCourse(request.InstructorId, request.Title, request.Description, request.Category);
+        Guid newCourseId = Guid.NewGuid();
+        var course = await _repository.GetByIdAsync(newCourseId);
+        course.CreateCourse(request.InstructorId, request.Title, request.Description, request.Category);
         await _repository.SaveAsync(course);
         
         var integrationEvents = PrepareIntegrationEvents(course);
         await _eventBus.PublishEventsAsync(integrationEvents);
         
-        return new(){IsSuccess = true, ResultMessage = "Course Created.", CourseId = createdCourseId};
+        return new(){IsSuccess = true, ResultMessage = "Course Created.", CourseId = newCourseId};
     }
 }

@@ -23,3 +23,13 @@ services:
     ports:
         - "5672:5672"
         - "15672:15672"
+
+
+  command_api:
+    image: command_api:1.0
+    container_name: command_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - 5000:5000
