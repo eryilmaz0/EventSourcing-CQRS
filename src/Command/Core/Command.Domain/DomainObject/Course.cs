@@ -51,9 +51,8 @@ public class Course : AggregateRoot
     public void CreateCourse(Guid instructorId, string title, string description, string category)
     {
         if (CurrentState.Status != CourseStatus.NonCreated)
-        {
             throw new DomainException("Course Already Created.");
-        }
+        
 
         IEvent raisedEvent = new CourseCreatedEvent()
         {
@@ -71,10 +70,12 @@ public class Course : AggregateRoot
 
     public void ChangeCourseTitle(string title)
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
         if (CurrentState.Status == CourseStatus.NonCreated)
-        {
             throw new DomainException("Course Status Not Valid For Title Changing.");
-        } 
+         
         
         IEvent raisedEvent = new CourseTitleChangedEvent()
         {
@@ -89,10 +90,12 @@ public class Course : AggregateRoot
 
     public void ChangeCourseDescription(string description)
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
         if (CurrentState.Status == CourseStatus.NonCreated)
-        {
             throw new DomainException("Course Status Not Valid For Description Changing.");
-        } 
+        
         
         IEvent raisedEvent = new CourseDescriptionChangedEvent()
         {
@@ -107,10 +110,12 @@ public class Course : AggregateRoot
 
     public void PrePresentationCourse()
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
         if (CurrentState.Status != CourseStatus.Created)
-        {
             throw new DomainException("Course Status Not Valid For Pre Presenting.");
-        }
+        
         
         IEvent raisedEvent = new CoursePrePresentedEvent()
         {
@@ -124,10 +129,12 @@ public class Course : AggregateRoot
 
     public void ActivateCourse()
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
         if (CurrentState.Status != CourseStatus.PrePresentation)
-        {
             throw new DomainException("Course Status Not Valid For Activating.");
-        }
+        
         
         IEvent raisedEvent = new CourseActivatedEvent()
         {
@@ -141,10 +148,12 @@ public class Course : AggregateRoot
 
     public void CompleteCourse()
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
         if (CurrentState.Status != CourseStatus.Activated)
-        {
             throw new DomainException("Course Status Not Valid For Completing.");
-        }
+        
         
         IEvent raisedEvent = new CourseCompletedEvent()
         {
@@ -158,12 +167,17 @@ public class Course : AggregateRoot
 
     public void AddSection(Guid instructorId, string title, string description, string videoUrl)
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
+        
         if (CurrentState.Status == CourseStatus.Completed || CurrentState.Status == CourseStatus.NonCreated)
             throw new DomainException("Course Status Not Valid For Section Adding.");
         
         
         if(CurrentState.Sections.Count >= 100)
             throw new DomainException("Course Sections is at Limit.");
+        
 
         if (instructorId != CurrentState.InstructorId)
             throw new DomainException("User is not the instructor of this course.");
@@ -184,8 +198,9 @@ public class Course : AggregateRoot
 
     public void JoinCourse(Guid participantId)
     {
-        if (CurrentState.Status == CourseStatus.NonCreated)
-            throw new DomainException("Course is not not exist.");
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
 
         if (CurrentState.Participants.Any(x => x.ParticipantId == participantId))
             throw new DomainException("User is already a participant of this course.");
@@ -204,8 +219,13 @@ public class Course : AggregateRoot
 
     public void LeaveCourse(Guid participantId)
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
+        
         if (!CurrentState.Participants.Any(x => x.ParticipantId == participantId))
             throw new DomainException("User is not a participant of this course.");
+        
         
         IEvent raisedEvent = new LeftFromCourseEvent()
         {
@@ -220,8 +240,13 @@ public class Course : AggregateRoot
 
     public void CommentCourse(Guid commentorId, string comment)
     {
+        if(!IsCourseExist())
+            throw new DomainException("Course Not Exist");
+        
+        
         if (CurrentState.Status != CourseStatus.Activated && CurrentState.Status != CourseStatus.Completed)
             throw new DomainException("Course status is not valid for commenting.");
+        
         
         if(!CurrentState.Participants.Any(x => x.ParticipantId == commentorId))
             throw new DomainException("You should be a participant to comment this course.");
@@ -331,4 +356,10 @@ public class Course : AggregateRoot
     }
     
     #endregion
+
+
+    private bool IsCourseExist()
+    {
+        return CurrentState.Status != CourseStatus.NonCreated;
+    }
 }
