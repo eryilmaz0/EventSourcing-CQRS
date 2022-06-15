@@ -1,4 +1,4 @@
-﻿namespace Command.Domain.Exception;
+﻿namespace Command.Application.Exception;
 
 public class ConsistencyException : System.Exception
 {

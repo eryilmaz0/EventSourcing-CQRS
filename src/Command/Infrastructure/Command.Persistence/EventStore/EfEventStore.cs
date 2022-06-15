@@ -1,4 +1,5 @@
 ﻿using Command.Application.Abstracts.Persistence;
+using Command.Application.Exception;
 using Command.Domain.Event;
 using Command.Domain.Event.StoredEvent;
 using Command.Domain.Exception;
@@ -36,14 +37,12 @@ public class EfEventStore : IEventStore
     }
 
     
-    public async Task<IEnumerable<IEvent>> GetEventsAsync(Guid aggregateId)
+    public async Task<IEnumerable<PersistentEvent>> GetEventsAsync(Guid aggregateId)
     {
-        var persistentEvents = await _context.Events
+        return await _context.Events
                                                      .Where(x => x.AggregateId == aggregateId)
                                                      .OrderBy(x => x.Version)
                                                      .ToListAsync();
-        
-        return EventConverter.DeserializePersistentEvents(persistentEvents);
     }
     
     

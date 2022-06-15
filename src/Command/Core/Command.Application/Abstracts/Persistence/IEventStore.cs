@@ -6,5 +6,5 @@ namespace Command.Application.Abstracts.Persistence;
 public interface IEventStore
 {
     public Task SaveEventsAsync(IEnumerable<PersistentEvent> events, long expectedVersion);
-    public Task<IEnumerable<IEvent>> GetEventsAsync(Guid aggregateId);
+    public Task<IEnumerable<PersistentEvent>> GetEventsAsync(Guid aggregateId);
 }

@@ -1,6 +1,7 @@
 ﻿using Command.Application.Abstracts.Persistence;
 using Command.Domain.DomainObject;
 using Command.Domain.Event.StoredEvent;
+using Command.Persistence.Utilities;
 
 namespace Command.Persistence.Repository;
 
@@ -21,7 +22,8 @@ public class Repository<T> : IRepository<T> where T : AggregateRoot
         if (eventStream.Any())
         {
             //Projection
-            aggregate.PrepareCurrentState(eventStream);
+            var deserializedEvents = EventConverter.DeserializePersistentEvents(eventStream);
+            aggregate.PrepareCurrentState(deserializedEvents);
         }
 
         return aggregate;

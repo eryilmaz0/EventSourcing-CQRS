@@ -36,6 +36,8 @@ public static class ServiceRegistrator
             });
         });
         
+        serviceCollection.AddMassTransitHostedService();
+        
         return serviceCollection;
     }
 }

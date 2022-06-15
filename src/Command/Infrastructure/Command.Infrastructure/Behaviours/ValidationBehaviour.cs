@@ -1,8 +1,8 @@
-﻿using Command.Domain.Exception;
+﻿using Command.Application.Exception;
+using Command.Domain.Exception;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
-using ValidationException = Command.Domain.Exception.ValidationException;
 
 namespace Command.Infrastructure.Behaviours;
 
@@ -39,6 +39,6 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             ErrorMessage = x.ErrorMessage
         });
 
-        throw new ValidationException(validationErrors.ToList());
+        throw new Application.Exception.ValidationException(validationErrors.ToList());
     }
 }
