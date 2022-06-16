@@ -17,6 +17,11 @@ public class CourseDescriptionChangedEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new FakeIntegrationEvent();
+        return new CourseDescriptionChangedIntegrationEvent()
+        {
+            AggregateId = aggregateId,
+            Created = Created,
+            Description = Description
+        };
     }
 }

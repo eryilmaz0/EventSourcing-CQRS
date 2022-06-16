@@ -17,7 +17,12 @@ public class LeftFromCourseEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new FakeIntegrationEvent();
+        return new LeftCourseIntegrationEvent()
+        {
+            AggregateId = aggregateId,
+            Created = Created,
+            ParticipantId = ParticipantId
+        };
     }
     
 }

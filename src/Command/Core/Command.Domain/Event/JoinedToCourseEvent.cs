@@ -17,6 +17,11 @@ public class JoinedToCourseEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new FakeIntegrationEvent();
+        return new JoinedCourseIntegrationEvent()
+        {
+            AggregateId = aggregateId,
+            Created = Created,
+            ParticipantId = ParticipantId
+        };
     }
 }

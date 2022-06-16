@@ -15,6 +15,6 @@ public abstract class CommandHandler
             integrationEvents.Add(@event.ToIntegrationEvent(aggregate.AggregateId)); 
         }
         
-        return integrationEvents;
+        return integrationEvents.OrderBy(x => x.Created);
     }
 }

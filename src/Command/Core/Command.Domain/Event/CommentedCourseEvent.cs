@@ -19,6 +19,11 @@ public class CommentedCourseEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new FakeIntegrationEvent();
+        return new CourseCommentedIntegrationEvent()
+        {
+            AggregateId = aggregateId,
+            Created = Created,
+            Comment = Comment
+        };
     }
 }

@@ -20,6 +20,13 @@ public class SectionAppendedEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new FakeIntegrationEvent();
+        return new SectionAppendedIntegrationEvent()
+        {
+            AggregateId = aggregateId,
+            Created = Created,
+            Title = Title,
+            Description = Description,
+            VideoUrl = VideoUrl
+        };
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace EventSourcing.Shared.IntegrationEvent;
 
-public class FakeIntegrationEvent : IIntegrationEvent
+public class FakeIntegrationEvent : IntegrationEvent
 {
     
 }

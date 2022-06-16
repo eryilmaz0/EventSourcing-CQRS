@@ -8,13 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MongoDB.Driver" Version="2.16.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\Query.Application\Query.Application.csproj" />
-      <ProjectReference Include="..\Infrastructure\Query.Infrastructure\Query.Infrastructure.csproj" />
-      <ProjectReference Include="..\Infrastructure\Query.Persistence\Query.Persistence.csproj" />
+      <Folder Include="Consumer" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\EventSourcing.Shared\EventSourcing.Shared.csproj" />
     </ItemGroup>
 
 </Project>

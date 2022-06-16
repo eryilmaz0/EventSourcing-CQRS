@@ -17,6 +17,11 @@ public class CourseTitleChangedEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new FakeIntegrationEvent();
+        return new CourseTitleChangedIntegrationEvent()
+        {
+            AggregateId = aggregateId,
+            Created = Created,
+            Title = Title,
+        };
     }
 }
