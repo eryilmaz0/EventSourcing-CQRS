@@ -5,7 +5,7 @@
 
  Project domain is a simple Online Course Platform Domain. There are courses that created by Platform Instructors. An Instructor can change the course name and description of his courses, or can add sections into it. Also, he can change the status of his courses as Presenting, Activated, and Completed. Platform Users Can Join - Leave a course, or comment the courses.
 
- All of these operations implemented as a Use-Case Operation in Command Project. Use-Case Operations are ;
+ All of these operations implemented as a Use-Case Operation in Command Project. Defined Use-Case Operations are ;
 
  - **Create Course**
  - **Change Course Title**
