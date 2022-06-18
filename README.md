@@ -49,6 +49,6 @@ The Infrastructure Details;
 You can see all the project infrastructure below.
 
 <p align="center">
-  <img src="resources/projectstructure.png" />
+  <img src="resources/eventsourcingwhite.svg" />
 </p>
 
