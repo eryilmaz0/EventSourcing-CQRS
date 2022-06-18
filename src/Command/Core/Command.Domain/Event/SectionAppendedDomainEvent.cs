@@ -5,7 +5,7 @@ using EventSourcing.Shared.IntegrationEvent;
 
 namespace Command.Domain.Event;
 
-public class SectionAppendedEvent : IEvent
+public class SectionAppendedDomainEvent : IDomainEvent
 {
     public string Title { get; set; }
     public string Description { get; set; }

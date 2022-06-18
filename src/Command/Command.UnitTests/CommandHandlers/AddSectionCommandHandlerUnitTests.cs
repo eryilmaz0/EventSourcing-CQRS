@@ -37,7 +37,7 @@ public class AddSectionCommandHandlerUnitTests
 
         Guid aggregateId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -80,7 +80,7 @@ public class AddSectionCommandHandlerUnitTests
 
         Guid aggregateId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -124,7 +124,7 @@ public class AddSectionCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid instructorId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {

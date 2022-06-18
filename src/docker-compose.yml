@@ -26,6 +26,12 @@ services:
       context: .
       dockerfile: Query/SecondQueryProject/Dockerfile
 
+  firstquery_api:
+    image: firstquery_api:1.0
+    build: 
+      context: .
+      dockerfile: Query/FirstQueryProject/Dockerfile
+
 
 
 

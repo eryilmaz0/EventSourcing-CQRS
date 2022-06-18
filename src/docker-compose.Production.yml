@@ -64,3 +64,12 @@ services:
       - ASPNETCORE_URLS=http://+:5010
     ports:
       - 5010:5010
+
+  firstquery_api:
+    image: firstquery_api:1.0
+    container_name:  firstquery_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5020
+    ports:
+      - 5020:5020

@@ -5,22 +5,29 @@ namespace Command.Domain.DomainObject;
 public abstract class AggregateRoot
 {
     
-    private ICollection<IEvent> _events = new List<IEvent>();
+    private ICollection<IDomainEvent> _events = new List<IDomainEvent>();
     public long Version { get; protected set; }
     public Guid AggregateId { get; protected set; }
     
 
-    public ICollection<IEvent> GetRaisedEvents() => _events;
-    protected void AddRaisedEvent(IEvent @event) => _events.Add(@event);
-    
-    
-    protected abstract void ApplyEvent(IEvent @event);
-    public abstract void PrepareCurrentState(IEnumerable<IEvent> events);
+    public ICollection<IDomainEvent> RaisedEvents() => _events;
 
-
-    public AggregateRoot(Guid id)
+    protected void RaiseEvent(IDomainEvent domainEvent)
     {
-        AggregateId = id;
-        Version = 0;
+        _events.Add(domainEvent);
+        ApplyEvent(domainEvent);
+    } 
+    
+    public void ReBuild(IEnumerable<IDomainEvent> events)
+    {
+        foreach (var @event in events)
+        {
+            ApplyEvent(@event);
+            Version++;
+        }
     }
+    
+    
+    protected abstract void ApplyEvent(IDomainEvent domainEvent);
+    
 }

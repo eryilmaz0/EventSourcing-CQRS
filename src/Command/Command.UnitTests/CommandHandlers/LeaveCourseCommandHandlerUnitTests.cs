@@ -38,7 +38,7 @@ public class LeaveCourseCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid participantId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -82,7 +82,7 @@ public class LeaveCourseCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid participantId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -127,7 +127,7 @@ public class LeaveCourseCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid participantId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {

@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Query/FirstQueryProject/FirstQueryProject.csproj", "FirstQueryProject/"]
+COPY ["Query/FirstQueryProject/FirstQueryProject.csproj", "Query/FirstQueryProject/"]
 RUN dotnet restore "Query/FirstQueryProject/FirstQueryProject.csproj"
 COPY . .
-WORKDIR "/src/FirstQueryProject"
+WORKDIR "/src/Query/FirstQueryProject"
 RUN dotnet build "FirstQueryProject.csproj" -c Release -o /app/build
 
 FROM build AS publish

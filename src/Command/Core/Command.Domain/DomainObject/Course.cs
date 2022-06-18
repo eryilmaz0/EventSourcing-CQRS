@@ -9,53 +9,40 @@ public class Course : AggregateRoot
 {
     public CourseCurrentState CurrentState { get; set; }
 
-    public Course(Guid id) : base(id)
+    public Course() 
     {
         CurrentState = new();
+        Version = 0;
     }
     
     
     
-    protected override void ApplyEvent(IEvent @event)
+    protected override void ApplyEvent(IDomainEvent domainEvent)
     {
-        switch (@event)
+        switch (domainEvent)
         {
-            case CourseCreatedEvent courseCreatedEvent : Apply(courseCreatedEvent); break;
-            case CourseTitleChangedEvent courseTitleChanged : Apply(courseTitleChanged); break;
-            case CourseDescriptionChangedEvent courseDescriptionChanged : Apply(courseDescriptionChanged); break;
-            case CoursePrePresentedEvent coursePrePresentedEvent : Apply(coursePrePresentedEvent); break;
-            case CourseActivatedEvent courseActivatedEvent : Apply(courseActivatedEvent); break;
-            case CourseCompletedEvent courseDisabledEvent : Apply(courseDisabledEvent); break;
-            case SectionAppendedEvent sectionAppendedEvent : Apply(sectionAppendedEvent); break;
-            case JoinedToCourseEvent joinedToCourseEvent : Apply(joinedToCourseEvent); break;
-            case LeftFromCourseEvent leftFromCourseEvent : Apply(leftFromCourseEvent); break;
-            case CommentedCourseEvent commentedCourseEvent : Apply(commentedCourseEvent); break;
+            case CourseCreatedDomainEvent courseCreatedEvent : Apply(courseCreatedEvent); break;
+            case CourseTitleChangedDomainEvent courseTitleChanged : Apply(courseTitleChanged); break;
+            case CourseDescriptionChangedDomainEvent courseDescriptionChanged : Apply(courseDescriptionChanged); break;
+            case CoursePrePresentedDomainEvent coursePrePresentedEvent : Apply(coursePrePresentedEvent); break;
+            case CourseActivatedDomainEvent courseActivatedEvent : Apply(courseActivatedEvent); break;
+            case CourseCompletedDomainEvent courseDisabledEvent : Apply(courseDisabledEvent); break;
+            case SectionAppendedDomainEvent sectionAppendedEvent : Apply(sectionAppendedEvent); break;
+            case JoinedToCourseDomainEvent joinedToCourseEvent : Apply(joinedToCourseEvent); break;
+            case LeftFromCourseDomainEvent leftFromCourseEvent : Apply(leftFromCourseEvent); break;
+            case CommentedCourseDomainEvent commentedCourseEvent : Apply(commentedCourseEvent); break;
             default: throw new DomainException("Invalid Event Type.");
         }
     }
-
-    public override void PrepareCurrentState(IEnumerable<IEvent> events)
-    {
-        //Projecting every event, and reaching current state and version number.
-        foreach (var @event in events)
-        {
-            ApplyEvent(@event);
-            Version++;
-        }
-    }
-
 
     //Command --> Function --> Event
     #region Business Logic
 
     public void CreateCourse(Guid instructorId, string title, string description, string category)
     {
-        if (CurrentState.Status != CourseStatus.NonCreated)
-            throw new DomainException("Course Already Created.");
-        
-
-        IEvent raisedEvent = new CourseCreatedEvent()
+        IDomainEvent raisedDomainEvent = new CourseCreatedDomainEvent()
         {
+            CourseId = Guid.NewGuid(),
             Title = title,
             Description = description,
             Category = category,
@@ -63,8 +50,7 @@ public class Course : AggregateRoot
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -77,14 +63,13 @@ public class Course : AggregateRoot
             throw new DomainException("Course Status Not Valid For Title Changing.");
          
         
-        IEvent raisedEvent = new CourseTitleChangedEvent()
+        IDomainEvent raisedDomainEvent = new CourseTitleChangedDomainEvent()
         {
             Title = title,
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -97,14 +82,13 @@ public class Course : AggregateRoot
             throw new DomainException("Course Status Not Valid For Description Changing.");
         
         
-        IEvent raisedEvent = new CourseDescriptionChangedEvent()
+        IDomainEvent raisedDomainEvent = new CourseDescriptionChangedDomainEvent()
         {
             Description = description,
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -117,13 +101,12 @@ public class Course : AggregateRoot
             throw new DomainException("Course Status Not Valid For Pre Presenting.");
         
         
-        IEvent raisedEvent = new CoursePrePresentedEvent()
+        IDomainEvent raisedDomainEvent = new CoursePrePresentedDomainEvent()
         {
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -136,13 +119,12 @@ public class Course : AggregateRoot
             throw new DomainException("Course Status Not Valid For Activating.");
         
         
-        IEvent raisedEvent = new CourseActivatedEvent()
+        IDomainEvent raisedDomainEvent = new CourseActivatedDomainEvent()
         {
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -155,13 +137,12 @@ public class Course : AggregateRoot
             throw new DomainException("Course Status Not Valid For Completing.");
         
         
-        IEvent raisedEvent = new CourseCompletedEvent()
+        IDomainEvent raisedDomainEvent = new CourseCompletedDomainEvent()
         {
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -183,7 +164,7 @@ public class Course : AggregateRoot
             throw new DomainException("User is not the instructor of this course.");
         
         
-        IEvent raisedEvent = new SectionAppendedEvent()
+        IDomainEvent raisedDomainEvent = new SectionAppendedDomainEvent()
         {
             Title = title,
             Description = description,
@@ -191,8 +172,7 @@ public class Course : AggregateRoot
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -206,14 +186,13 @@ public class Course : AggregateRoot
             throw new DomainException("User is already a participant of this course.");
         
         
-        IEvent raisedEvent = new JoinedToCourseEvent()
+        IDomainEvent raisedDomainEvent = new JoinedToCourseDomainEvent()
         {
             ParticipantId = participantId,
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -227,14 +206,13 @@ public class Course : AggregateRoot
             throw new DomainException("User is not a participant of this course.");
         
         
-        IEvent raisedEvent = new LeftFromCourseEvent()
+        IDomainEvent raisedDomainEvent = new LeftFromCourseDomainEvent()
         {
             ParticipantId = participantId,
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
 
 
@@ -251,15 +229,14 @@ public class Course : AggregateRoot
         if(!CurrentState.Participants.Any(x => x.ParticipantId == commentorId))
             throw new DomainException("You should be a participant to comment this course.");
         
-        IEvent raisedEvent = new CommentedCourseEvent()
+        IDomainEvent raisedDomainEvent = new CommentedCourseDomainEvent()
         {
             CommentorId = commentorId,
             Comment = comment,
             Created = DateTime.UtcNow
         };
         
-        ApplyEvent(raisedEvent);
-        AddRaisedEvent(raisedEvent);
+        RaiseEvent(raisedDomainEvent);
     }
     
 
@@ -268,88 +245,89 @@ public class Course : AggregateRoot
     //F(State, Event) => new State
     #region Projection
     
-    private void Apply(CourseCreatedEvent @event)
+    private void Apply(CourseCreatedDomainEvent domainEvent)
     {
-        CurrentState.Created = @event.Created;
-        CurrentState.InstructorId = @event.InstructorId;
-        CurrentState.Title = @event.Title;
-        CurrentState.Description = @event.Description;
-        CurrentState.Category = @event.Category;
+        AggregateId = domainEvent.CourseId;
+        CurrentState.Created = domainEvent.Created;
+        CurrentState.InstructorId = domainEvent.InstructorId;
+        CurrentState.Title = domainEvent.Title;
+        CurrentState.Description = domainEvent.Description;
+        CurrentState.Category = domainEvent.Category;
         CurrentState.Status = CourseStatus.Created;
     }
     
     
-    private void Apply(CourseTitleChangedEvent @event)
+    private void Apply(CourseTitleChangedDomainEvent domainEvent)
     {
-        CurrentState.Title = @event.Title;
+        CurrentState.Title = domainEvent.Title;
     }
     
     
-    private void Apply(CourseDescriptionChangedEvent @event)
+    private void Apply(CourseDescriptionChangedDomainEvent domainEvent)
     {
-        CurrentState.Description = @event.Description;
+        CurrentState.Description = domainEvent.Description;
     }
     
     
     
-    private void Apply(CoursePrePresentedEvent @event)
+    private void Apply(CoursePrePresentedDomainEvent domainEvent)
     {
         CurrentState.Status = CourseStatus.PrePresentation;
     }
     
     
-    private void Apply(CourseActivatedEvent @event)
+    private void Apply(CourseActivatedDomainEvent domainEvent)
     {
         CurrentState.Status = CourseStatus.Activated;
     }
     
     
-    private void Apply(CourseCompletedEvent @event)
+    private void Apply(CourseCompletedDomainEvent domainEvent)
     {
         CurrentState.Status = CourseStatus.Completed;
     }
     
     
-    private void Apply(SectionAppendedEvent @event)
+    private void Apply(SectionAppendedDomainEvent domainEvent)
     {
         SectionCurrentState newSectionState = new()
         {
-            Title = @event.Title, 
-            Description = @event.Description, 
-            VideoUrl = @event.VideoUrl, 
-            Created = @event.Created
+            Title = domainEvent.Title, 
+            Description = domainEvent.Description, 
+            VideoUrl = domainEvent.VideoUrl, 
+            Created = domainEvent.Created
         };
         
         CurrentState.Sections.Add(newSectionState);
     }
     
     
-    private void Apply(JoinedToCourseEvent @event)
+    private void Apply(JoinedToCourseDomainEvent domainEvent)
     {
         ParticipantCurrentState newParticipant = new()
         {
-            ParticipantId = @event.ParticipantId,
-            JoinDate = @event.Created
+            ParticipantId = domainEvent.ParticipantId,
+            JoinDate = domainEvent.Created
         };
         
         CurrentState.Participants.Add(newParticipant);
     }
     
     
-    private void Apply(LeftFromCourseEvent @event)
+    private void Apply(LeftFromCourseDomainEvent domainEvent)
     {
-        var participant = CurrentState.Participants.First(x => x.ParticipantId == @event.ParticipantId);
+        var participant = CurrentState.Participants.First(x => x.ParticipantId == domainEvent.ParticipantId);
         CurrentState.Participants.Remove(participant);
     }
     
     
-    private void Apply(CommentedCourseEvent @event)
+    private void Apply(CommentedCourseDomainEvent domainEvent)
     {
         CommentCurrentState newComment = new()
         {
-            CommentorId = @event.CommentorId,
-            Comment = @event.Comment,
-            Created = @event.Created
+            CommentorId = domainEvent.CommentorId,
+            Comment = domainEvent.Comment,
+            Created = domainEvent.Created
         };
         
         CurrentState.Comments.Add(newComment);

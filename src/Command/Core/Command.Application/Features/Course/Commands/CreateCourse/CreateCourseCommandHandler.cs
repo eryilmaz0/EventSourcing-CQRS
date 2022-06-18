@@ -1,6 +1,7 @@
 ﻿using Command.Application.Abstracts.CommandHandler;
 using Command.Application.Abstracts.Infrastructure;
 using Command.Application.Abstracts.Persistence;
+using Command.Domain.DomainObject;
 using MediatR;
 
 
@@ -20,14 +21,13 @@ public class CreateCourseCommandHandler : CommandHandler, IRequestHandler<Create
 
     public async Task<CreateCourseResponse> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        Guid newCourseId = Guid.NewGuid();
-        var course = await _repository.GetByIdAsync(newCourseId);
+        var course = new Domain.DomainObject.Course();
         course.CreateCourse(request.InstructorId, request.Title, request.Description, request.Category);
         await _repository.SaveAsync(course);
         
         var integrationEvents = PrepareIntegrationEvents(course);
         await _eventBus.PublishEventsAsync(integrationEvents);
         
-        return new(){IsSuccess = true, ResultMessage = "Course Created.", CourseId = newCourseId};
+        return new(){IsSuccess = true, ResultMessage = "Course Created.", CourseId = course.AggregateId};
     }
 }

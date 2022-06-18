@@ -10,7 +10,7 @@ public abstract class CommandHandler
     {
         List<IIntegrationEvent> integrationEvents = new List<IIntegrationEvent>();
         
-        foreach (var @event in aggregate.GetRaisedEvents())
+        foreach (var @event in aggregate.RaisedEvents())
         {
             integrationEvents.Add(@event.ToIntegrationEvent(aggregate.AggregateId)); 
         }

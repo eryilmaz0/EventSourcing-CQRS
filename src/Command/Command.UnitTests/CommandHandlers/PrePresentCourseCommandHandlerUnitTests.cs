@@ -36,7 +36,7 @@ public class PrePresentCourseCommandHandlerUnitTests
         #region Arrange
 
         Guid aggregateId = Guid.NewGuid();
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -77,7 +77,7 @@ public class PrePresentCourseCommandHandlerUnitTests
         #region Arrange
 
         Guid aggregateId = Guid.NewGuid();
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {

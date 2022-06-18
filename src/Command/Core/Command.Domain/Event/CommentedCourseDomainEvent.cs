@@ -5,23 +5,26 @@ using EventSourcing.Shared.IntegrationEvent;
 
 namespace Command.Domain.Event;
 
-public class JoinedToCourseEvent : IEvent
+public class CommentedCourseDomainEvent : IDomainEvent
 {
-    public Guid ParticipantId { get; set; }
+    public Guid CommentorId { get; set; }
+    public string Comment { get; set; }
     public DateTime Created { get; set; }
+    
     
     public PersistentEvent ToPersistentEvent(Guid aggregateId, long version)
     {
-        return new(aggregateId, EventType.JoinedToCourse, version, Created, JsonSerializer.Serialize(this));
+        return new(aggregateId, EventType.CommentedCourse, version, Created, JsonSerializer.Serialize(this));
     }
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new JoinedCourseIntegrationEvent()
+        return new CourseCommentedIntegrationEvent()
         {
+            CommentorId = CommentorId,
             AggregateId = aggregateId,
             Created = Created,
-            ParticipantId = ParticipantId
+            Comment = Comment
         };
     }
 }

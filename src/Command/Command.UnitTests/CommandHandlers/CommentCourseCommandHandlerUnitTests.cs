@@ -38,7 +38,7 @@ public class CommentCourseCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid participantId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -83,7 +83,7 @@ public class CommentCourseCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid participantId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {
@@ -129,7 +129,7 @@ public class CommentCourseCommandHandlerUnitTests
         Guid aggregateId = Guid.NewGuid();
         Guid participantId = Guid.NewGuid();
 
-        Course course = new(aggregateId)
+        Course course = new()
         {
             CurrentState = new()
             {

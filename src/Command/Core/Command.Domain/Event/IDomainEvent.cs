@@ -3,7 +3,7 @@ using EventSourcing.Shared.IntegrationEvent;
 
 namespace Command.Domain.Event;
 
-public interface IEvent
+public interface IDomainEvent
 {
     public PersistentEvent ToPersistentEvent(Guid aggregateId, long version);
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId);

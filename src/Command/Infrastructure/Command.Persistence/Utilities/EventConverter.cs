@@ -7,9 +7,9 @@ namespace Command.Persistence.Utilities;
 
 public static class EventConverter
 {
-    public static IEnumerable<IEvent> DeserializePersistentEvents(IEnumerable<PersistentEvent> events)
+    public static IEnumerable<IDomainEvent> DeserializePersistentEvents(IEnumerable<PersistentEvent> events)
     {
-        List<IEvent> deserializedEvents = new();
+        List<IDomainEvent> deserializedEvents = new();
 
         foreach (var @event in events)
         {
@@ -20,20 +20,20 @@ public static class EventConverter
     }
 
 
-    private static IEvent DeserializeEvent(PersistentEvent @event)
+    private static IDomainEvent DeserializeEvent(PersistentEvent @event)
     {
         return @event.Type switch
         {
-            EventType.CommentedCourse => JsonSerializer.Deserialize<CommentedCourseEvent>(@event.Payload),
-            EventType.CourseActivated => JsonSerializer.Deserialize<CourseActivatedEvent>(@event.Payload),
-            EventType.CourseCompleted => JsonSerializer.Deserialize<CourseCompletedEvent>(@event.Payload),
-            EventType.CourseCreatedEvent => JsonSerializer.Deserialize<CourseCreatedEvent>(@event.Payload),
-            EventType.CourseDescriptionChanged => JsonSerializer.Deserialize<CourseDescriptionChangedEvent>(@event.Payload),
-            EventType.CoursePrePresented => JsonSerializer.Deserialize<CoursePrePresentedEvent>(@event.Payload),
-            EventType.CourseTitleChanged => JsonSerializer.Deserialize<CourseTitleChangedEvent>(@event.Payload),
-            EventType.JoinedToCourse => JsonSerializer.Deserialize<JoinedToCourseEvent>(@event.Payload),
-            EventType.LeftFromCourse => JsonSerializer.Deserialize<LeftFromCourseEvent>(@event.Payload),
-            EventType.SectionAppended => JsonSerializer.Deserialize<SectionAppendedEvent>(@event.Payload),
+            EventType.CommentedCourse => JsonSerializer.Deserialize<CommentedCourseDomainEvent>(@event.Payload),
+            EventType.CourseActivated => JsonSerializer.Deserialize<CourseActivatedDomainEvent>(@event.Payload),
+            EventType.CourseCompleted => JsonSerializer.Deserialize<CourseCompletedDomainEvent>(@event.Payload),
+            EventType.CourseCreatedEvent => JsonSerializer.Deserialize<CourseCreatedDomainEvent>(@event.Payload),
+            EventType.CourseDescriptionChanged => JsonSerializer.Deserialize<CourseDescriptionChangedDomainEvent>(@event.Payload),
+            EventType.CoursePrePresented => JsonSerializer.Deserialize<CoursePrePresentedDomainEvent>(@event.Payload),
+            EventType.CourseTitleChanged => JsonSerializer.Deserialize<CourseTitleChangedDomainEvent>(@event.Payload),
+            EventType.JoinedToCourse => JsonSerializer.Deserialize<JoinedToCourseDomainEvent>(@event.Payload),
+            EventType.LeftFromCourse => JsonSerializer.Deserialize<LeftFromCourseDomainEvent>(@event.Payload),
+            EventType.SectionAppended => JsonSerializer.Deserialize<SectionAppendedDomainEvent>(@event.Payload),
             _ => throw new InvalidOperationException("Invalid Event Type.")
         };
     }
