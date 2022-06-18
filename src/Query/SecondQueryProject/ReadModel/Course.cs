@@ -5,6 +5,10 @@ namespace SecondQueryProject.ReadModel;
 
 public class Course : Abstract.ReadModel.ReadModel
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
+    public Guid InstructorId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public string Category { get; set; }

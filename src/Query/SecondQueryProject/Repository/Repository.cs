@@ -12,23 +12,23 @@ public class Repository<T> : IRepository<T> where T : Abstract.ReadModel.ReadMod
 
     public Repository(MongoContext context)
     {
-        _collection = context.GetCollection<T>(nameof(T));
+        _collection = context.GetCollection<T>(typeof(T).Name);
     }
     
 
-    public async Task<List<T>> GetAll()
+    public async Task<List<T>> GetAllAsync()
     {
         return await _collection.Find(x => true).ToListAsync();
     }
     
 
-    public async Task<T> Get(Expression<Func<T, bool>> predicate)
+    public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
     {
         return await _collection.Find(predicate).FirstOrDefaultAsync();
     }
     
 
-    public async Task<bool> Insert(T readModel)
+    public async Task<bool> InsertAsync(T readModel)
     {
         try
         {
@@ -42,11 +42,11 @@ public class Repository<T> : IRepository<T> where T : Abstract.ReadModel.ReadMod
     }
     
 
-    public async Task<bool> Update(T readModel)
+    public async Task<bool> UpdateAsync(T readModel)
     {
         try
         {
-            var updateResult = await _collection.ReplaceOneAsync(filter: x => x.Id == readModel.Id, replacement: readModel);
+            var updateResult = await _collection.ReplaceOneAsync(filter: x => x.AggregateId == readModel.AggregateId, replacement: readModel);
             return updateResult.IsAcknowledged;
         }
         catch (Exception e)
@@ -56,11 +56,11 @@ public class Repository<T> : IRepository<T> where T : Abstract.ReadModel.ReadMod
     }
     
 
-    public async Task<bool> Remove(T readModel)
+    public async Task<bool> RemoveAsync(T readModel)
     {
         try
         {
-            var updateResult = await _collection.DeleteOneAsync(filter: x => x.Id == readModel.Id);
+            var updateResult = await _collection.DeleteOneAsync(filter: x => x.AggregateId == readModel.AggregateId);
             return updateResult.IsAcknowledged;
         }
         catch (Exception e)

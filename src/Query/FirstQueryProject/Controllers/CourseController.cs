@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SecondQueryProject.Abstract.Repository;
-using SecondQueryProject.ReadModel;
+﻿using FirstQueryProject.Abstract.Repository;
+using FirstQueryProject.ReadModel;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SecondQueryProject.Controllers;
+namespace FirstQueryProject.Controllers;
 
 [ApiController]
 [Route("api/[Controller]")]
@@ -27,6 +27,6 @@ public class CourseController : ControllerBase
     [Route("{courseId}")]
     public async Task<IActionResult> GetCourse(Guid courseId)
     {
-        return Ok(await _repository.GetAsync(x => x.AggregateId == courseId));
+        return Ok(await _repository.GetAsync(x => x.Id == courseId));
     }
 }

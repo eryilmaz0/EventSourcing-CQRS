@@ -2,6 +2,12 @@ version : '3.8'
 
 services:
 
+  firstquery_db:
+    image: redis
+
+  secondquery_db:
+    image: mongo
+
   eventstore_db:
     image: postgres
 
@@ -14,8 +20,15 @@ services:
       context: .
       dockerfile: Command/Command.API/Dockerfile
 
+  secondaryquery_api:
+    image: secondaryquery_api:1.0
+    build: 
+      context: .
+      dockerfile: Query/SecondQueryProject/Dockerfile
+
 
 
 
 volumes:
-   postgres_data:
+  postgres_data:
+  mongo_data:

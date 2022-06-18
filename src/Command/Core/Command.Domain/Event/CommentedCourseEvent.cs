@@ -21,6 +21,7 @@ public class CommentedCourseEvent : IEvent
     {
         return new CourseCommentedIntegrationEvent()
         {
+            CommentorId = CommentorId,
             AggregateId = aggregateId,
             Created = Created,
             Comment = Comment

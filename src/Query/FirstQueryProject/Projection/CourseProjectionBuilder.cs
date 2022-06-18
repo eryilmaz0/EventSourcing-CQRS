@@ -1,9 +1,9 @@
 ﻿using EventSourcing.Shared.IntegrationEvent;
-using SecondQueryProject.Abstract.Projection;
-using SecondQueryProject.Abstract.Repository;
-using SecondQueryProject.ReadModel;
+using FirstQueryProject.Abstract.Projection;
+using FirstQueryProject.Abstract.Repository;
+using FirstQueryProject.ReadModel;
 
-namespace SecondQueryProject.Projection;
+namespace FirstQueryProject.Projection;
 
 public class CourseProjectionBuilder : IProjectionBuilder<Course>
 {
@@ -14,7 +14,6 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     }
 
-    
     public async Task ProjectModelAsync(IIntegrationEvent @event)
     {
         switch (@event)
@@ -32,19 +31,22 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
             default: throw new InvalidOperationException("Undefined Integration Event.");
         }
     }
-
-
+    
+    
     private async Task ApplyEvent(CourseCreatedIntegrationEvent @event)
     {
         var course = new Course()
         {
-            AggregateId = @event.AggregateId,
+            Id = @event.AggregateId,
             InstructorId = @event.InstructorId,
             Title = @event.Title,
             Description = @event.Description,
             Category = @event.Category,
             Created = @event.Created,
-            Status = "Created"
+            Status = "Created",
+            Sections = 0,
+            Comments = 0,
+            Participants = 0
         };
 
         await _repository.InsertAsync(course);
@@ -52,7 +54,7 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
     
     private async Task ApplyEvent(CourseTitleChangedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
         course.Title = @event.Title;
         await _repository.UpdateAsync(course);
     }
@@ -60,7 +62,7 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
     
     private async Task ApplyEvent(CourseDescriptionChangedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
         course.Description = @event.Description;
         await _repository.UpdateAsync(course);
     }
@@ -68,7 +70,7 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
     
     private async Task ApplyEvent(CoursePresentedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
         course.Status = "Presenting";
         await _repository.UpdateAsync(course);
     }
@@ -76,7 +78,7 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
     
     private async Task ApplyEvent(CourseActivatedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
         course.Status = "Activated";
         await _repository.UpdateAsync(course);
     }
@@ -84,7 +86,7 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
     
     private async Task ApplyEvent(CourseCompletedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
         course.Status = "Completed";
         await _repository.UpdateAsync(course);
     }
@@ -92,51 +94,32 @@ public class CourseProjectionBuilder : IProjectionBuilder<Course>
     
     private async Task ApplyEvent(SectionAppendedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
-        course.Sections.Add(new()
-        {
-            Title = @event.Title,
-            Description = @event.Description,
-            VideoUrl = @event.VideoUrl,
-            Created = @event.Created
-        });
-
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
+        course.Sections++;
         await _repository.UpdateAsync(course);
     }
     
     
     private async Task ApplyEvent(JoinedCourseIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
-        course.Participants.Add(new()
-        {
-            Id = @event.ParticipantId,
-            Created = @event.Created
-        });
-
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
+        course.Participants++;
         await _repository.UpdateAsync(course);
     }
     
     
     private async Task ApplyEvent(LeftCourseIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
-        var participant = course.Participants.First(x => x.Id == @event.ParticipantId);
-        course.Participants.Remove(participant);
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
+        course.Participants--;
         await _repository.UpdateAsync(course);
     }
     
     
     private async Task ApplyEvent(CourseCommentedIntegrationEvent @event)
     {
-        var course = await _repository.GetAsync(x => x.AggregateId == @event.AggregateId);
-        course.Comments.Add(new()
-        {
-            CommentorId = @event.CommentorId,
-            Created = @event.Created,
-            Content = @event.Comment
-        });
-
+        var course = await _repository.GetAsync(x => x.Id == @event.AggregateId);
+        course.Comments++;
         await _repository.UpdateAsync(course);
     }
 }

@@ -16,7 +16,7 @@ public class CoursePrePresentedEvent : IEvent
  
     public IIntegrationEvent ToIntegrationEvent(Guid aggregateId)
     {
-        return new CoursePrePresentedIntegrationEvent()
+        return new CoursePresentedIntegrationEvent()
         {
             AggregateId = aggregateId,
             Created = Created,

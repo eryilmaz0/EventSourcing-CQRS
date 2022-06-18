@@ -12,8 +12,8 @@ public class MongoContext
     
     public MongoContext(IConfiguration config)
     {
-        var client = new MongoClient(config.GetValue<string>("MongoDbConfig:ConnectionString"));
-        var database = client.GetDatabase(config.GetValue<string>("MongoDbConfig:Database"));
+        _client = new MongoClient(config.GetValue<string>("MongoDbConfig:ConnectionString"));
+        _database = _client.GetDatabase(config.GetValue<string>("MongoDbConfig:Database"));
     }
     
     

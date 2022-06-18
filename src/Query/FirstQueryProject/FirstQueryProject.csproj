@@ -8,18 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="StackExchange.Redis" Version="2.6.45" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Abstract\ReadModel" />
-      <Folder Include="Abstract\Repository" />
-      <Folder Include="Abstract\Projection" />
-      <Folder Include="Consumer" />
-      <Folder Include="Controllers" />
-      <Folder Include="Projection" />
-      <Folder Include="ReadModel" />
-      <Folder Include="Repository" />
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="7.3.1" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using EventSourcing.Shared.IntegrationEvent;
 
-namespace SecondQueryProject.Abstract.Projection;
+namespace FirstQueryProject.Abstract.Projection;
 
 public interface IProjectionBuilder<T> where T : ReadModel.ReadModel
 {

@@ -2,6 +2,7 @@
 
 public class CourseCreatedIntegrationEvent : IntegrationEvent
 {
+    public Guid CreatedCourseId { get; set; }
     public Guid InstructorId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
