@@ -1,7 +1,6 @@
 ## EventSourcing-CQRS
 
- **This is an Event Sourcing Project. Contains my fully-own Event Store implementation with Entity Framework Core - PostgreSQL. Also implements CQRS Design Pattern.**
-
+ **This is an Event Sourcing Project. Contains my fully-own Event Store implementation with Entity Framework Core - PostgreSQL and  CQRS - Event Sourcing implemantation.
  ### Domain
 
  Project domain is a simple Online Course Platform Domain. There are courses that created by Platform Instructors. An Instructor can change the course name and description of his courses, or can add sections into it. Also, he can change the status of his courses as Presenting, Activated, and Completed. Platform Users Can Join - Leave a course, or comment the courses.
