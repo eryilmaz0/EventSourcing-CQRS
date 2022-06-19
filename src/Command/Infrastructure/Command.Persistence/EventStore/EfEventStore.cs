@@ -22,14 +22,9 @@ public class EfEventStore : IEventStore
     public async Task SaveEventsAsync(IEnumerable<PersistentEvent> events, long expectedVersion)
     {
         var aggregateId = events.First().AggregateId;
-        long currentVersionFromEventStore = 0;
         
-        //Checking Current Version for Consistency
-        if(events.First().Version != 1)
-            currentVersionFromEventStore = _context.Events.Where(x => x.AggregateId == events.First().AggregateId).Max(x => x.Version);
-
- 
-        if (currentVersionFromEventStore != expectedVersion)
+        //Check the latest event version and aggregate version are matching  
+        if (events.Max(x => x.Version) != expectedVersion)
             throw new ConsistencyException();
         
         await _context.Events.AddRangeAsync(events);

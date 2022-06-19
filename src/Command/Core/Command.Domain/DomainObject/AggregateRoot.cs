@@ -5,16 +5,17 @@ namespace Command.Domain.DomainObject;
 public abstract class AggregateRoot
 {
     
-    private ICollection<IDomainEvent> _events = new List<IDomainEvent>();
+    private IDictionary<long, IDomainEvent> _events = new Dictionary<long, IDomainEvent>();
     public long Version { get; protected set; }
     public Guid AggregateId { get; protected set; }
     
 
-    public ICollection<IDomainEvent> RaisedEvents() => _events;
+    public IDictionary<long, IDomainEvent> RaisedEvents() => _events;
 
     protected void RaiseEvent(IDomainEvent domainEvent)
     {
-        _events.Add(domainEvent);
+        Version++;
+        _events.Add(Version, domainEvent);
         ApplyEvent(domainEvent);
     } 
     

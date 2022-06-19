@@ -33,12 +33,10 @@ public class Repository<T> : IRepository<T> where T : AggregateRoot, new()
     public async Task SaveAsync(T aggregate)
     {
         var events = new List<PersistentEvent>();
-        long currentVersion = aggregate.Version;
-        
+
         foreach (var raisedEvent in aggregate.RaisedEvents())
         {
-            currentVersion++;
-            events.Add(raisedEvent.ToPersistentEvent(aggregate.AggregateId, currentVersion));
+            events.Add(raisedEvent.Value.ToPersistentEvent(aggregate.AggregateId, raisedEvent.Key));
         }
 
         await _eventStore.SaveEventsAsync(events, aggregate.Version);
