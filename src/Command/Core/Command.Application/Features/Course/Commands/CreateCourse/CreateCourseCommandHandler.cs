@@ -21,8 +21,7 @@ public class CreateCourseCommandHandler : CommandHandler, IRequestHandler<Create
 
     public async Task<CreateCourseResponse> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        var course = new Domain.DomainObject.Course();
-        course.CreateCourse(request.InstructorId, request.Title, request.Description, request.Category);
+        var course = Domain.DomainObject.Course.CreateCourse(request.InstructorId, request.Title, request.Description, request.Category);
         await _repository.SaveAsync(course);
         
         var integrationEvents = PrepareIntegrationEvents(course);

@@ -38,8 +38,9 @@ public class Course : AggregateRoot
     //Command --> Function --> Event
     #region Business Logic
 
-    public void CreateCourse(Guid instructorId, string title, string description, string category)
+    public static Course CreateCourse(Guid instructorId, string title, string description, string category)
     {
+        Course newCourse = new();
         IDomainEvent raisedDomainEvent = new CourseCreatedDomainEvent()
         {
             CourseId = Guid.NewGuid(),
@@ -50,7 +51,8 @@ public class Course : AggregateRoot
             Created = DateTime.UtcNow
         };
         
-        RaiseEvent(raisedDomainEvent);
+        newCourse.RaiseEvent(raisedDomainEvent);
+        return newCourse;
     }
 
 
