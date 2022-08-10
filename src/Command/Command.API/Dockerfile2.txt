@@ -1,0 +1,45 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src/Shared/EventSourcing.Shared
+COPY ["Shared/EventSourcing.Shared/EventSourcing.Shared.csproj", "./"]
+RUN dotnet restore
+
+WORKDIR /src/Command/Core/Command.Domain
+COPY ["Command/Core/Command.Domain/Command.Domain.csproj", "./"]
+RUN dotnet restore
+
+
+WORKDIR /src/Command/Core/Command.Application
+COPY ["Command/Core/Command.Application/Command.Application.csproj", "./"]
+RUN dotnet restore
+
+
+WORKDIR /src/Command/Infrastructure/Command.Infrastructure
+COPY ["Command/Infrastructure/Command.Infrastructure/Command.Infrastructure.csproj", "./"]
+RUN dotnet restore
+
+
+WORKDIR /src/Command/Infrastructure/Command.Persistence
+COPY ["Command/Infrastructure/Command.Persistence/Command.Persistence.csproj", "./"]
+RUN dotnet restore
+
+
+WORKDIR /src/Command/Command.API
+COPY ["Command/Command.API/Command.API.csproj", "./"]
+RUN dotnet restore 
+
+
+WORKDIR /src
+COPY . .
+FROM build AS publish
+WORKDIR /src/Command/Command.API
+RUN dotnet publish "Command.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Command.API.dll"]
